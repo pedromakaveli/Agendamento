@@ -6,7 +6,18 @@ class Agendamento:
         ]
         self.laboratorios = ['civil', 'd6']
 
-    def exibirMateriais(self):
+    def exibirMateriais(self, lab=None):
+        if lab is not None:
+            materialLista = []
+            for material in self.materiais:
+                if material['lab'] == lab:
+                    materialLista.append(material)
+
+            if materialLista:
+                return materialLista
+            else:
+                return None
+
         for material in self.materiais:
             print(f'ID: {material["id"]} | Material: {material["material"]} | Quantidade: {material["quantidade"]}')
 
@@ -29,9 +40,9 @@ class Agendamento:
             return None
 
         elif labPassado is not None:
-            for material in self.materiais:
-                if material['lab'] == labPassado:
-                    return material
+            for lab in self.materiais:
+                if lab['lab'] == labPassado:
+                    return lab
             return None
 
     def agendar(self):
@@ -47,13 +58,21 @@ if __name__ == '__main__':
         if menuBusca == '1':
             print('\nLaboratórios: ')
             print(agd.exibirLabs())
-            labSelecionado = input('\nDigite o lab: ')
-            materialEncontrado = agd.buscar(labPassado=labSelecionado)
 
-            if materialEncontrado:
-                print(f'Material encontrado: ID: {materialEncontrado["id"]} | Material: {materialEncontrado["material"]} | Local: {materialEncontrado["lab"]} | Quantidade: {materialEncontrado["quantidade"]}')
+            labSelecionado = input('\nDigite o lab: ')
+            labEncontrado = agd.buscar(labPassado=labSelecionado)
+
+            if labEncontrado:
+                print(f'O laboratório informado coincide na base de dados')
+
+                materialEncontrado = agd.exibirMateriais(lab=labSelecionado)
+                if materialEncontrado:
+                    for material in materialEncontrado:
+                        print(f'ID: {material["id"]} | Material: {material["material"]} | Quantidade: {material["quantidade"]}')
+                else:
+                    print('nenhum material encontrado')
             else:
-                print('Material não encontrado na base de dados!')
+                print(f'O laboratório: "{labSelecionado}" não coincide na nossa base de dados, verifique novamente!')
 
         if menuBusca == '2':
             print('\nMateriais:')
