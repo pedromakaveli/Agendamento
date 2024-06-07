@@ -1,14 +1,14 @@
 class Agendamento:
     def __init__(self):
         self.materiais = [
-            {'id': '1', 'lab': 'civil', 'material': 'assds', 'dataDisponivel': ['1', '2', '3'], 'Quantidade': 5},
-            {'id': '2', 'lab': 'civil', 'material': 'ddd', 'dataDisponivel': ['1', '2', '3'], 'Quantidade': 2}
+            {'id': '1', 'lab': 'civil', 'material': 'assds', 'dataDisponivel': ['1', '2', '3'], 'quantidade': 5},
+            {'id': '2', 'lab': 'civil', 'material': 'ddd', 'dataDisponivel': ['1', '2', '3'], 'quantidade': 2}
         ]
         self.laboratorios = ['civil', 'd6']
 
     def exibirMateriais(self):
         for material in self.materiais:
-            print(f'ID: {material["id"]} | Material: {material["material"]}')
+            print(f'ID: {material["id"]} | Material: {material["material"]} | Quantidade: {material["quantidade"]}')
 
     def exibirLabs(self):
         for lab in self.laboratorios:
@@ -51,7 +51,7 @@ if __name__ == '__main__':
             materialEncontrado = agd.buscar(labPassado=labSelecionado)
 
             if materialEncontrado:
-                print(f'Material encontrado: ID: {materialEncontrado["id"]} | Material: {materialEncontrado["material"]} | Local: {materialEncontrado["lab"]}')
+                print(f'Material encontrado: ID: {materialEncontrado["id"]} | Material: {materialEncontrado["material"]} | Local: {materialEncontrado["lab"]} | Quantidade: {materialEncontrado["quantidade"]}')
             else:
                 print('Material não encontrado na base de dados!')
 
@@ -60,9 +60,15 @@ if __name__ == '__main__':
             agd.exibirMateriais()
 
             materialSelecionado = input('\nDigite a ID do produto ou o nome: ')
-            materialEncontrado = agd.buscar(idPassado=materialSelecionado, materialPassado=materialSelecionado)
+            materialEncontrado = None
+
+            if materialSelecionado.isdigit():
+                materialEncontrado = agd.buscar(idPassado=materialSelecionado)
+            else:
+                materialEncontrado = agd.buscar(materialPassado=materialSelecionado)
+
 
             if materialEncontrado:
-                print(f'Material encontrado: ID: {materialEncontrado["id"]} | Material: {materialEncontrado["material"]} | Local: {materialEncontrado["lab"]}')
+                print(f'Material encontrado: ID: {materialEncontrado["id"]} | Material: {materialEncontrado["material"]} | Local: {materialEncontrado["lab"]} | Quantidade: {materialEncontrado["quantidade"]}')
             else:
                 print('Material não encontrado na base de dados!')
